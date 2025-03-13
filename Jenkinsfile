@@ -14,7 +14,7 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    bat 'echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin'
+                    bat 'docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%'
                     bat 'docker build -t kunj116/my-webapp:latest .'
                     bat 'docker push kunj116/my-webapp:latest'
                 }
