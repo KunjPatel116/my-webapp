@@ -8,24 +8,24 @@ pipeline {
         }
         stage('Build Maven Project') {
             steps {
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
         stage('Docker Login') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                    bat 'echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin'
                 }
             }
         }
         stage('Docker Build') {
             steps {
-                sh 'docker build -t kunj116/my-webapp:latest .'
+                bat 'docker build -t kunj116/my-webapp:latest .'
             }
         }
         stage('Docker Push') {
             steps {
-                sh 'docker push kunj116/my-webapp:latest'
+                bat 'docker push kunj116/my-webapp:latest'
             }
         }
     }
